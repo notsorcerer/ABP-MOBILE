@@ -75,4 +75,8 @@ class OrderRepository {
     final response = await _api.get('orders/$orderId/payment');
     return response.data['data'];
   }
+
+  Future<void> cancelOrder(int orderId) async {
+    await _api.put('orders/$orderId/cancel');
+  }
 }

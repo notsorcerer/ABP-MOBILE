@@ -32,6 +32,7 @@ class ProductRepository {
 
   Future<Map<String, dynamic>> getProducts({
     String? categorySlug,
+    String? search,
     int page = 1,
     int perPage = 10,
   }) async {
@@ -41,6 +42,9 @@ class ProductRepository {
     };
     if (categorySlug != null) {
       queryParams['category'] = categorySlug;
+    }
+    if (search != null && search.isNotEmpty) {
+      queryParams['search'] = search;
     }
 
     final response = await _api.get('products', queryParameters: queryParams);

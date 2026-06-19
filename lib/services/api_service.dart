@@ -71,4 +71,12 @@ class ApiService {
   Future<Response> delete(String path) async {
     return _dio.delete('${ApiConfig.apiPrefix}$path');
   }
+
+  Future<Response> postMultipart(String path, {required FormData formData}) async {
+    return _dio.post('${ApiConfig.apiPrefix}$path', data: formData);
+  }
+
+  Future<Response> putMultipart(String path, {required FormData formData}) async {
+    return _dio.put('${ApiConfig.apiPrefix}$path', data: formData);
+  }
 }

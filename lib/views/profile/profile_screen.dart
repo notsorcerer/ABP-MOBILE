@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/theme.dart';
 import '../../providers/auth_provider.dart';
+import '../admin/dashboard_screen.dart';
 import '../auth/login_screen.dart';
 import '../orders/order_list_screen.dart';
 
@@ -93,6 +94,24 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
+              if (user.isAdmin)
+                Column(
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.admin_panel_settings, color: AppTheme.secondary),
+                      title: const Text('Admin Panel'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const AdminDashboardScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    const Divider(height: 0),
+                  ],
+                ),
               Card(
                 child: Column(
                   children: [

@@ -58,7 +58,7 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> loadProducts({String? categorySlug, bool refresh = false}) async {
+  Future<void> loadProducts({String? categorySlug, String? search, bool refresh = false}) async {
     if (refresh) {
       _currentPage = 1;
       _products = [];
@@ -71,6 +71,7 @@ class ProductProvider extends ChangeNotifier {
     try {
       final data = await _repository.getProducts(
         categorySlug: categorySlug,
+        search: search,
         page: _currentPage,
       );
       _products.addAll(data['products'] as List<Product>);
@@ -85,10 +86,10 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> loadMoreProducts({String? categorySlug}) async {
+  Future<void> loadMoreProducts({String? categorySlug, String? search}) async {
     if (_isProductListLoading || !hasMore) return;
     _currentPage++;
-    await loadProducts(categorySlug: categorySlug);
+    await loadProducts(categorySlug: categorySlug, search: search);
   }
 
   Future<void> loadProductDetail(int id) async {

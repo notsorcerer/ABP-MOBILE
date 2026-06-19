@@ -4,6 +4,7 @@ import '../../config/theme.dart';
 import '../../providers/cart_provider.dart';
 import '../../widgets/loading_widget.dart';
 import '../checkout/checkout_screen.dart';
+import '../products/product_list_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -39,22 +40,12 @@ class _CartScreenState extends State<CartScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 64,
-                    color: AppTheme.grey,
-                  ),
+                  Icon(Icons.shopping_cart_outlined, size: 64, color: AppTheme.grey),
                   const SizedBox(height: 16),
-                  Text(
-                    'Keranjang masih kosong',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppTheme.grey,
-                    ),
-                  ),
+                  Text('Keranjang masih kosong', style: TextStyle(fontSize: 16, color: AppTheme.grey)),
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ProductListScreen())),
                     child: const Text('Belanja Sekarang'),
                   ),
                 ],
@@ -89,10 +80,7 @@ class _CartScreenState extends State<CartScreen> {
                                     width: 80,
                                     height: 80,
                                     color: AppTheme.lightGrey,
-                                    child: Icon(
-                                      Icons.image_not_supported,
-                                      color: AppTheme.grey,
-                                    ),
+                                    child: Icon(Icons.image_not_supported, color: AppTheme.grey),
                                   ),
                                 ),
                               ),
@@ -101,53 +89,24 @@ class _CartScreenState extends State<CartScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      item.name,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                    Text(item.name, style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 2, overflow: TextOverflow.ellipsis),
                                     const SizedBox(height: 4),
-                                    Text(
-                                      item.priceFormatted,
-                                      style: TextStyle(
-                                        color: AppTheme.primary,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                    Text(item.priceFormatted, style: TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold)),
                                     const SizedBox(height: 8),
                                     Row(
                                       children: [
                                         IconButton(
                                           onPressed: item.quantity > 1
-                                              ? () => cartProvider.updateQuantity(
-                                                    item.productId,
-                                                    item.quantity - 1,
-                                                  )
+                                              ? () => cartProvider.updateQuantity(item.productId, item.quantity - 1)
                                               : null,
-                                          icon: const Icon(
-                                            Icons.remove_circle_outline,
-                                          ),
+                                          icon: const Icon(Icons.remove_circle_outline),
                                           iconSize: 20,
                                           color: AppTheme.primary,
                                         ),
-                                        Text(
-                                          '${item.quantity}',
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                        Text('${item.quantity}', style: const TextStyle(fontWeight: FontWeight.bold)),
                                         IconButton(
-                                          onPressed: () =>
-                                              cartProvider.updateQuantity(
-                                            item.productId,
-                                            item.quantity + 1,
-                                          ),
-                                          icon: const Icon(
-                                            Icons.add_circle_outline,
-                                          ),
+                                          onPressed: () => cartProvider.updateQuantity(item.productId, item.quantity + 1),
+                                          icon: const Icon(Icons.add_circle_outline),
                                           iconSize: 20,
                                           color: AppTheme.primary,
                                         ),
@@ -159,22 +118,12 @@ class _CartScreenState extends State<CartScreen> {
                               Column(
                                 children: [
                                   IconButton(
-                                    onPressed: () =>
-                                        cartProvider.removeFromCart(
-                                      item.productId,
-                                    ),
-                                    icon: const Icon(
-                                      Icons.delete_outline,
-                                      color: Colors.red,
-                                    ),
+                                    onPressed: () => cartProvider.removeFromCart(item.productId),
+                                    icon: const Icon(Icons.delete_outline, color: Colors.red),
                                   ),
                                   Text(
                                     item.subtotalFormatted,
-                                    style: TextStyle(
-                                      color: AppTheme.primary,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                    ),
+                                    style: TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold, fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -190,35 +139,23 @@ class _CartScreenState extends State<CartScreen> {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: AppTheme.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, -5),
-                    ),
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, -5))],
                 ),
                 child: SafeArea(
                   child: Column(
                     children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ProductListScreen()));
+                        },
+                        child: const Text('Lanjut Belanja', style: TextStyle(fontWeight: FontWeight.w500)),
+                      ),
+                      const SizedBox(height: 4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Total',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: AppTheme.accent,
-                            ),
-                          ),
-                          Text(
-                            cartProvider.totalFormatted,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.primary,
-                            ),
-                          ),
+                          Text('Total', style: TextStyle(fontSize: 16, color: AppTheme.accent)),
+                          Text(cartProvider.totalFormatted, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.primary)),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -227,11 +164,7 @@ class _CartScreenState extends State<CartScreen> {
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const CheckoutScreen(),
-                              ),
-                            );
+                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => const CheckoutScreen()));
                           },
                           child: const Text('Checkout'),
                         ),

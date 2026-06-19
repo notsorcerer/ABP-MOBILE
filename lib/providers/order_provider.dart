@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../models/order.dart';
 import '../repositories/order_repository.dart';
@@ -109,13 +110,33 @@ class OrderProvider extends ChangeNotifier {
         longitude: longitude,
         paymentMethod: paymentMethod,
       );
+      _selectedOrder = result['order'] as Order;
       _lastPaymentInstructions = result['payment_instructions'] as Map<String, dynamic>;
       _isCreatingOrder = false;
       notifyListeners();
       return true;
     } catch (e) {
-      _error = 'Gagal membuat pesanan';
+      _error = e is DioException ? (e.message ?? 'Gagal membuat pesanan') : 'Gagal membuat pesanan';
       _isCreatingOrder = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> cancelOrder(int orderId) async {
+    _error = null;
+    notifyListeners();
+
+    try {
+      await _repository.cancelOrder(orderId);
+      await loadOrders(refresh: true);
+      if (_selectedOrder?.id == orderId) {
+        _selectedOrder = null;
+      }
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _error = e is DioException ? (e.message ?? 'Gagal membatalkan pesanan') : 'Gagal membatalkan pesanan';
       notifyListeners();
       return false;
     }

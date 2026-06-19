@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'config/theme.dart';
+import 'providers/admin_provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/cart_provider.dart';
 import 'providers/order_provider.dart';
 import 'providers/product_provider.dart';
+import 'repositories/admin_repository.dart';
 import 'repositories/auth_repository.dart';
 import 'repositories/cart_repository.dart';
 import 'repositories/order_repository.dart';
@@ -36,6 +38,9 @@ class LiquidPediaApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => OrderProvider(OrderRepository(apiService)),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AdminProvider(AdminRepository(apiService)),
         ),
       ],
       child: MaterialApp(

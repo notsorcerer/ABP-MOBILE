@@ -37,24 +37,27 @@ lib/
 │   ├── theme.dart                     # Tema LiquidPedia (#D84040)
 │   └── routes.dart                    # Route constants
 ├── services/
-│   └── api_service.dart               # Dio + interceptor token
+│   └── api_service.dart               # Dio + interceptor token + multipart
 ├── models/                            # Data class dari JSON API
 │   ├── user.dart
 │   ├── product.dart
 │   ├── category.dart
 │   ├── cart_item.dart
 │   ├── order.dart
-│   └── order_item.dart
+│   ├── order_item.dart
+│   └── dashboard_stats.dart
 ├── repositories/                      # Layer akses data
 │   ├── auth_repository.dart
 │   ├── product_repository.dart
 │   ├── cart_repository.dart
-│   └── order_repository.dart
+│   ├── order_repository.dart
+│   └── admin_repository.dart
 ├── providers/                         # State management (ChangeNotifier)
 │   ├── auth_provider.dart
 │   ├── product_provider.dart
 │   ├── cart_provider.dart
-│   └── order_provider.dart
+│   ├── order_provider.dart
+│   └── admin_provider.dart
 ├── views/                             # Halaman aplikasi
 │   ├── splash_screen.dart
 │   ├── auth/ (login, register)
@@ -63,11 +66,12 @@ lib/
 │   ├── cart/ (keranjang)
 │   ├── checkout/ (form + map)
 │   ├── orders/ (riwayat, detail)
-│   └── profile/
+│   ├── profile/
+│   └── admin/ (dashboard, products, categories, orders)
 └── widgets/                           # Komponen reusable
-    ├── product_card.dart
+    ├── product_card.dart              # Redesigned card + badge + add-to-cart mini
     ├── loading_widget.dart
-    ├── location_picker.dart           # Map OpenStreetMap
+    ├── location_picker.dart           # Map OpenStreetMap + gesture fix
     └── payment_method_picker.dart
 ```
 
@@ -154,11 +158,22 @@ Atau buka project di **Android Studio** → klik **Run** (▶️).
 ### Storefront
 - Beranda dengan produk Best Seller & New Arrival
 - Katalog produk filter per kategori (Vape / Liquid)
-- Detail produk dengan quantity selector
-- Keranjang belanja (database-based)
+- Pencarian produk dengan debounce 500ms
+- Detail produk dengan info table (Kategori, Status, Garansi)
+- Keranjang belanja (database-based) dengan badge real-time
 - Checkout dengan form pengiriman + **OpenStreetMap location picker**
 - 4 metode pembayaran: Transfer Bank, E-Wallet, QRIS, COD
 - Konfirmasi pesanan via WhatsApp
+- **Cancel order** (selama status masih pending)
+- Copy-to-clipboard nomor rekening / e-wallet
+- Entry animations (AnimatedOpacity + SlideTransition)
+
+### Admin Panel (via Profile → Admin Panel)
+- Dashboard statistik (total produk, kategori, pesanan, pendapatan)
+- CRUD Produk dengan upload gambar
+- CRUD Kategori
+- Manajemen Pesanan + update status pembayaran
+- Tombol "Lihat Petunjuk Pembayaran" & "Batalkan Pesanan"
 
 ### Manajemen Akun
 - Register / Login customer
