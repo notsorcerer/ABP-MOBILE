@@ -93,11 +93,43 @@ lib/
 
 ## Cara Menjalankan
 
+> **Prasyarat:** Backend Laravel (ABP-WEB) harus sudah berjalan. Ikuti langkah 1-5 untuk setup backend terlebih dahulu.
+
+### Setup Backend (ABP-WEB)
+
+Clone dan setup backend di laptop/PC (satu jaringan dengan HP):
+
+```bash
+# 1. Clone ABP-WEB
+git clone https://github.com/notsorcerer/ABP-WEB.git
+cd ABP-WEB
+
+# 2. Install dependency PHP & JS
+composer install
+npm install
+
+# 3. Setup environment
+cp .env.example .env
+# Edit .env: DB database, APP_URL=http://[IP_LAPTOP]:8000
+
+# 4. Generate key + migrate + seed
+php artisan key:generate
+php artisan migrate:fresh --seed
+php artisan storage:link
+
+# 5. Jalankan server
+php artisan serve --host=0.0.0.0 --port=8000
+```
+
+> Backend tetap berjalan di terminal — jangan ditutup.
+
+### Setup Mobile (ABP-MOBILE)
+
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/username/liquid-mobile.git
-cd liquid_mobile
+git clone https://github.com/notsorcerer/ABP-MOBILE.git
+cd ABP-MOBILE
 ```
 
 ### 2. Install Dependency
@@ -118,8 +150,9 @@ class ApiConfig {
 }
 ```
 
-- **Emulator Android:** `http://localhost:8000` (dengan `adb reverse`)
-- **Device fisik:** `http://[IP_HOST]:8000` (ganti dengan IP komputer)
+- **Emulator Android:** `http://10.0.2.2:8000` (tanpa `adb reverse`)
+- **Device fisik:** `http://[IP_LAPTOP]:8000` (ganti dengan IP komputer, cek via `ipconfig`)
+- **Device fisik + hotspot HP:** IP laptop di jaringan hotspot
 
 ### 4. Setup ADB Reverse (khusus emulator Android)
 
@@ -129,16 +162,7 @@ Setiap kali emulator di-restart:
 adb reverse tcp:8000 tcp:8000
 ```
 
-### 5. Pastikan Backend Laravel Berjalan
-
-```bash
-cd ../liquid
-php artisan serve --host=0.0.0.0 --port=8000
-```
-
-### 6. Jalankan Aplikasi
-
-Dari terminal:
+### 5. Jalankan Aplikasi
 
 ```bash
 flutter run
